@@ -30,7 +30,7 @@ resources:
     - IPProtocol: TCP
       ports: ["1935"]
 
-# Allow incoming HTTP calls via :80
+# Allow incoming HTTP calls via :8080
 - name: http-ingress-{{ env["deployment"] }}
   type: compute.v1.firewall
   properties:
@@ -39,4 +39,4 @@ resources:
     direction: INGRESS
     allowed:
     - IPProtocol: TCP
-      ports: ["80"]
+      ports: ["8080"]
