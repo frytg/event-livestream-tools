@@ -1,0 +1,38 @@
+# 
+#  AUTHOR		
+#    Daniel Freytag
+#	   https://github.com/frytg
+#    https://twitter.com/FRYTG
+# 
+
+# Deploy primary VM machine
+
+resources:
+- name: {{ env["name"] }}
+  type: compute.v1.instance
+  properties:
+    zone: {{ properties["zone"] }}
+    machineType: zones/{{ properties["zone"] }}/machineTypes/e2-standard-4
+    
+    disks:
+    - deviceName: boot
+      source: $(ref.disk-{{ env["deployment"] }}.selfLink)
+      boot: true
+      autoDelete: true
+    
+    networkInterfaces:
+    - network: $(ref.network-{{ env["deployment"] }}.selfLink)
+      accessConfigs:
+      - name: External NAT
+        type: ONE_TO_ONE_NAT
+        networkTier: PREMIUM
+    
+    metadata:
+      items:
+        - key: gce-container-declaration
+          value: "spec:\n  containers:\n    - name: {{ env["name"] }}-container-1\n      image: tiangolo/nginx-rtmp\n      securityContext:\n        privileged: true\n      stdin: false\n      tty: false\n  restartPolicy: Always"
+          
+
+outputs:
+- name: externalNatIp
+  value: $(ref.{{ env["name"] }}.networkInterfaces[0].accessConfigs[0].natIP)

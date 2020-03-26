@@ -1,0 +1,18 @@
+# 
+#  AUTHOR		
+#    Daniel Freytag
+#	   https://github.com/frytg
+#    https://twitter.com/FRYTG
+# 
+
+imports:
+- path: deploy-disk.jinja
+- path: deploy-vm.jinja
+- path: deploy-network.jinja
+- path: deploy-firewall.jinja
+- path: deploy-ip.jinja
+- path: deploy-manager.jinja
+
+resources:
+- name: hello
+  type: deploy-manager.jinja

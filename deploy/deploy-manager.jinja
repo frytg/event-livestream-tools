@@ -1,0 +1,34 @@
+# 
+#  AUTHOR		
+#    Daniel Freytag
+#	   https://github.com/frytg
+#    https://twitter.com/FRYTG
+# 
+
+# Add all sub-deployments
+
+{% set CONFIG_ZONE = "europe-west3-c" %}
+
+resources:
+- name: disk-{{ env["deployment"] }}
+  type: deploy-disk.jinja
+  properties:
+    zone: {{ CONFIG_ZONE }}
+
+- name: vm-{{ env["deployment"] }}
+  type: deploy-vm.jinja
+  properties:
+    zone: {{ CONFIG_ZONE }}
+
+- name: network-{{ env["deployment"] }}
+  type: deploy-network.jinja
+
+- name: firewall-{{ env["deployment"] }}
+  type: deploy-firewall.jinja
+
+- name: ip-{{ env["deployment"] }}
+  type: deploy-ip.jinja
+
+outputs:
+- name: deployment
+  value: {{ env["deployment"] }}

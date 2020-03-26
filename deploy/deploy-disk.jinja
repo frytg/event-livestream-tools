@@ -1,0 +1,16 @@
+# 
+#  AUTHOR		
+#    Daniel Freytag
+#	   https://github.com/frytg
+#    https://twitter.com/FRYTG
+# 
+
+# Deploy pd-ssd disk for VM
+
+resources:
+- name: {{ env["name"] }}
+  type: compute.v1.disk
+  properties:
+    zone: {{ properties["zone"] }}
+    type: projects/{{ env["project"] }}/zones/{{ properties["zone"] }}/diskTypes/pd-ssd
+    sourceImage: projects/cos-cloud/global/images/cos-stable-80-12739-104-0
