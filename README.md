@@ -3,7 +3,7 @@
 This service runs on [nginx-rtmp-module](https://github.com/arut/nginx-rtmp-module/issues) to provide a RTMP relay service. The deployment is configured via Deployment Manager on GCP.
 
 
-## Install
+## INSTALL
 
 ### Prerequisites:
 1. Have `gcloud` CLI installed and authenticated
@@ -16,3 +16,8 @@ From within this working directory run this command
 gcloud deployment-manager deployments create DEPLOYMENT_NAME --project PROJECT_ID --config ./deploy/run.yaml
 ```
 Replace `DEPLOYMENT_NAME` and `PROJECT_ID` accordingly. The first will also be used to name all created instances.
+
+## TODO
+
+- Add programmatic IP and DNS connection
+- Add docker creation to github
