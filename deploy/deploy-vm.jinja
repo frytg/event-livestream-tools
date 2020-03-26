@@ -30,7 +30,7 @@ resources:
     metadata:
       items:
         - key: gce-container-declaration
-          value: "spec:\n  containers:\n    - name: {{ env["name"] }}-container-1\n      image: tiangolo/nginx-rtmp\n      securityContext:\n        privileged: true\n      stdin: false\n      tty: false\n  restartPolicy: Always"
+          value: "spec:\n  containers:\n    - name: {{ env["name"] }}-container-1\n      image: docker.pkg.github.com/frytg/event-livestream-relay/basic:latest\n      securityContext:\n        privileged: true\n      stdin: false\n      tty: false\n  restartPolicy: Always"
           
 
 outputs:
