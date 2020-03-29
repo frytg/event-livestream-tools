@@ -22,7 +22,7 @@ RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 5C808C2B65
 RUN apt-get update
 
 # Install ffnvcodec (https://developer.nvidia.com/ffmpeg)
-RUN git clone https://git.videolan.org/git/ffmpeg/nv-codec-headers.git \
+RUN git clone https://git.videolan.org/git/ffmpeg/nv-codec-headers.git && \
     cd nv-codec-headers && make install -j2
 
 RUN apt-get update -qq && apt-get -y install \
@@ -54,6 +54,7 @@ RUN apt-get update -qq && apt-get -y install \
       libopus-dev \
       libx264-dev \
       libfdk-aac-dev
+
 RUN mkdir -p ~/ffmpeg_sources ~/bin && cd ~/ffmpeg_sources && \
     wget -O ffmpeg-4.2.2.tar.bz2 https://ffmpeg.org/releases/ffmpeg-4.2.2.tar.bz2 && \
     tar xjvf ffmpeg-4.2.2.tar.bz2 && \
@@ -61,8 +62,9 @@ RUN mkdir -p ~/ffmpeg_sources ~/bin && cd ~/ffmpeg_sources && \
     PATH="$HOME/bin:$PATH" PKG_CONFIG_PATH="$HOME/ffmpeg_build/lib/pkgconfig" ./configure \
       --prefix="$HOME/ffmpeg_build" \
       --pkg-config-flags="--static" \
-      --extra-cflags="-I$HOME/ffmpeg_build/include" \
-      --extra-ldflags="-L$HOME/ffmpeg_build/lib" \
+      --extra-cflags=-I/usr/local/cuda/include \
+      --extra-cflags=-I/usr/local/include \
+      --extra-ldflags=-L/usr/local/cuda/lib64 && \
       --extra-libs="-lpthread -lm" \
       --bindir="$HOME/bin" \
       --enable-libfdk-aac \
