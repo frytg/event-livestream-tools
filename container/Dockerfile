@@ -52,16 +52,10 @@ RUN apt-get update -qq && apt-get -y install \
       libx264-dev \
       libfdk-aac-dev
 
-RUN mkdir -p ~/ffmpeg_sources ~/bin && cd ~/ffmpeg_sources && \
-    wget -O ffmpeg-4.2.2.tar.bz2 https://ffmpeg.org/releases/ffmpeg-4.2.2.tar.bz2 && \
-    tar xjvf ffmpeg-4.2.2.tar.bz2 && \
-    cd ffmpeg-4.2.2 && \
-    PATH="$HOME/bin:$PATH" PKG_CONFIG_PATH="$HOME/ffmpeg_build/lib/pkgconfig" ./configure \
+RUN git clone https://github.com/FFmpeg/FFmpeg /root/ffmpeg && \
+  cd /root/ffmpeg && ./configure \
       --prefix="$HOME/ffmpeg_build" \
       --pkg-config-flags="--static" \
-      --extra-cflags=-I/usr/local/cuda/include \
-      --extra-cflags=-I/usr/local/include \
-      --extra-ldflags=-L/usr/local/cuda/lib64 && \
       --enable-libfdk-aac \
       --enable-cuvid \
       --enable-nvenc \
@@ -75,7 +69,10 @@ RUN mkdir -p ~/ffmpeg_sources ~/bin && cd ~/ffmpeg_sources && \
       --enable-libvpx \
       --enable-libx264 \
       --enable-libx265 \
-      --enable-nonfree && \
+      --enable-nonfree \
+      --extra-cflags=-I/usr/local/cuda/include \
+      --extra-cflags=-I/usr/local/include \
+      --extra-ldflags=-L/usr/local/cuda/lib64 && \
     PATH="$HOME/bin:$PATH" make -j2 && \
     make install -j2 && \
     hash -r
