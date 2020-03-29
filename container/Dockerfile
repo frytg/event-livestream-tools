@@ -1,3 +1,6 @@
+## BEGINN FFMPEG INSTALL with CUDA
+## BEGINN FFMPEG INSTALL with CUDA
+
 # Start with NVidia CUDA base image
 FROM nvidia/cuda:9.1-devel
 
@@ -12,10 +15,6 @@ RUN git clone https://github.com/FFmpeg/nv-codec-headers /root/nv-codec-headers 
   make -j2 && \
   make install -j2 && \
   cd /root && rm -rf nv-codec-headers
-
-
-## BEGINN FFMPEG INSTALL
-## BEGINN FFMPEG INSTALL
 
 # Compile and install fresh ffmpeg from sources:
 # See: https://trac.ffmpeg.org/wiki/CompilationGuide/Ubuntu
