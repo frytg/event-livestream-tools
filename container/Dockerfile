@@ -62,7 +62,6 @@ RUN mkdir -p ~/ffmpeg_sources ~/bin && cd ~/ffmpeg_sources && \
       --extra-cflags=-I/usr/local/cuda/include \
       --extra-cflags=-I/usr/local/include \
       --extra-ldflags=-L/usr/local/cuda/lib64 && \
-      --bindir="$HOME/bin" \
       --enable-libfdk-aac \
       --enable-cuvid \
       --enable-nvenc \
