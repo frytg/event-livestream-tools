@@ -60,103 +60,68 @@ RUN mkdir -p /tmp/ffmpeg_1
 ## BEGINN FFMPEG INSTALL
 ## BEGINN FFMPEG INSTALL
 
-ARG FFMPEG_VERSION=4.2.2
-ARG PREFIX=/opt/ffmpeg
-ARG LD_LIBRARY_PATH=/opt/ffmpeg/lib
-ARG MAKEFLAGS="-j4"
+# Compile and install fresh ffmpeg from sources:
+# See: https://trac.ffmpeg.org/wiki/CompilationGuide/Ubuntu
+# Source: https://stackoverflow.com/questions/53944487/how-to-install-ffmpeg-in-a-docker-container
+RUN echo "deb http://www.deb-multimedia.org stretch main non-free" >> /etc/apt/sources.list
+RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 5C808C2B65558117
+RUN apt-get update
 
-# FFmpeg build dependencies.
-RUN apk add --update \
-  build-base \
-  coreutils \
-  freetype-dev \
-  gcc \
-  lame-dev \
-  libogg-dev \
-  libass \
-  libass-dev \
-  libvpx-dev \
-  libvorbis-dev \
-  libwebp-dev \
-  libtheora-dev \
-  opus-dev \
-  openssl \
-  openssl-dev \
-  pkgconf \
-  pkgconfig \
-  rtmpdump-dev \
-  wget \
-  x264-dev \
-  x265-dev \
-  yasm
-
-# Get fdk-aac from testing.
-RUN echo http://dl-cdn.alpinelinux.org/alpine/edge/testing >> /etc/apk/repositories && \
-  apk add --update fdk-aac-dev
-
-# Get ffmpeg source.
-RUN cd /tmp/ && \
-  wget http://ffmpeg.org/releases/ffmpeg-${FFMPEG_VERSION}.tar.gz && \
-  tar zxf ffmpeg-${FFMPEG_VERSION}.tar.gz && rm ffmpeg-${FFMPEG_VERSION}.tar.gz
-
-# Compile ffmpeg.
-RUN cd /tmp/ffmpeg-${FFMPEG_VERSION} && \
-  ./configure \
-  --enable-version3 \
-  --enable-gpl \
-  --enable-nonfree \
-  --enable-small \
-  --enable-libmp3lame \
-  --enable-libx264 \
-  --enable-libx265 \
-  --enable-libvpx \
-  --enable-libtheora \
-  --enable-libvorbis \
-  --enable-libopus \
-  --enable-libfdk-aac \
-  --enable-libass \
-  --enable-libwebp \
-  --enable-librtmp \
-  --enable-postproc \
-  --enable-avresample \
-  --enable-libfreetype \
-  --enable-openssl \
-  --disable-debug \
-  --disable-doc \
-  --disable-ffplay \
-  --extra-cflags="-I${PREFIX}/include" \
-  --extra-ldflags="-L${PREFIX}/lib" \
-  --extra-libs="-lpthread -lm" \
-  --prefix="${PREFIX}" && \
-  make && make install && make distclean
-
-# Cleanup.
-RUN rm -rf /var/cache/apk/* /tmp/*
-
-##########################
-# Build the release image.
-FROM alpine:3.11
-LABEL MAINTAINER Alfred Gutierrez <alf.g.jr@gmail.com>
-ENV PATH=/opt/ffmpeg/bin:$PATH
-
-RUN apk add --update \
-  ca-certificates \
-  openssl \
-  pcre \
-  lame \
-  libogg \
-  libass \
-  libvpx \
-  libvorbis \
-  libwebp \
-  libtheora \
-  opus \
-  rtmpdump \
-  x264-dev \
-  x265-dev
-
-COPY --from=build /opt/ffmpeg /opt/ffmpeg
-COPY --from=build /usr/lib/libfdk-aac.so.2 /usr/lib/libfdk-aac.so.2
+RUN apt-get update -qq && apt-get -y install \
+      autoconf \
+      automake \
+      build-essential \
+      cmake \
+      git-core \
+      libass-dev \
+      libfreetype6-dev \
+      libsdl2-dev \
+      libtool \
+      libva-dev \
+      libvdpau-dev \
+      libvorbis-dev \
+      libxcb1-dev \
+      libxcb-shm0-dev \
+      libxcb-xfixes0-dev \
+      pkg-config \
+      texinfo \
+      wget \
+      zlib1g-dev \
+      nasm \
+      yasm \
+      libx265-dev \
+      libnuma-dev \
+      libvpx-dev \
+      libmp3lame-dev \
+      libopus-dev \
+      libx264-dev \
+      libfdk-aac-dev
+RUN mkdir -p ~/ffmpeg_sources ~/bin && cd ~/ffmpeg_sources && \
+    wget -O ffmpeg-4.2.2.tar.bz2 https://ffmpeg.org/releases/ffmpeg-4.2.2.tar.bz2 && \
+    tar xjvf ffmpeg-4.2.2.tar.bz2 && \
+    cd ffmpeg-4.2.2 && \
+    PATH="$HOME/bin:$PATH" PKG_CONFIG_PATH="$HOME/ffmpeg_build/lib/pkgconfig" ./configure \
+      --prefix="$HOME/ffmpeg_build" \
+      --pkg-config-flags="--static" \
+      --extra-cflags="-I$HOME/ffmpeg_build/include" \
+      --extra-ldflags="-L$HOME/ffmpeg_build/lib" \
+      --extra-libs="-lpthread -lm" \
+      --bindir="$HOME/bin" \
+      --enable-libfdk-aac \
+      --enable-gpl \
+      --enable-libass \
+      --enable-libfreetype \
+      --enable-libmp3lame \
+      --enable-libopus \
+      --enable-libvorbis \
+      --enable-libvpx \
+      --enable-libx264 \
+      --enable-libx265 \
+      --enable-nonfree && \
+    PATH="$HOME/bin:$PATH" make -j8 && \
+    make install -j8 && \
+    hash -r
+RUN mv ~/bin/ffmpeg /usr/local/bin && mv ~/bin/ffprobe /usr/local/bin && mv ~/bin/ffplay /usr/local/bin
 
 ## END FFMPEG INSTALL
 ## END FFMPEG INSTALL
