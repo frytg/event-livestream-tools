@@ -21,9 +21,6 @@ RUN echo "deb http://www.deb-multimedia.org stretch main non-free" >> /etc/apt/s
 RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 5C808C2B65558117
 RUN apt-get update
 
-# Install ffnvcodec (https://developer.nvidia.com/ffmpeg)
-RUN git clone https://git.videolan.org/git/ffmpeg/nv-codec-headers.git && \
-    cd nv-codec-headers && make install -j2
 
 RUN apt-get update -qq && apt-get -y install \
       autoconf \
@@ -65,7 +62,6 @@ RUN mkdir -p ~/ffmpeg_sources ~/bin && cd ~/ffmpeg_sources && \
       --extra-cflags=-I/usr/local/cuda/include \
       --extra-cflags=-I/usr/local/include \
       --extra-ldflags=-L/usr/local/cuda/lib64 && \
-      --extra-libs="-lpthread -lm" \
       --bindir="$HOME/bin" \
       --enable-libfdk-aac \
       --enable-cuvid \
@@ -81,7 +77,7 @@ RUN mkdir -p ~/ffmpeg_sources ~/bin && cd ~/ffmpeg_sources && \
       --enable-libx264 \
       --enable-libx265 \
       --enable-nonfree && \
-    PATH="$HOME/bin:$PATH" make -j8 && \
+    PATH="$HOME/bin:$PATH" make -j2 && \
     make install -j2 && \
     hash -r
 RUN mv ~/bin/ffmpeg /usr/local/bin && mv ~/bin/ffprobe /usr/local/bin && mv ~/bin/ffplay /usr/local/bin
@@ -100,6 +96,7 @@ LABEL maintainer="Daniel Freytag <sys@frytg.com>"
 # Versions of Nginx and nginx-rtmp-module to use
 ENV NGINX_VERSION nginx-1.16.1
 ENV NGINX_RTMP_MODULE_VERSION 1.2.1
+ENV NVIDIA_DRIVER_CAPABILITIES video,compute,utility
 
 
 # Install dependencies
