@@ -52,12 +52,6 @@ RUN cd /tmp/build/nginx/${NGINX_VERSION} && \
     rm -rf /tmp/build
 
 
-# Add hls tmp folder just in case
-RUN mkdir -p /tmp/hls-encoder
-RUN mkdir -p /tmp/hls-passthrough
-RUN mkdir -p /tmp/ffmpeg
-
-
 ## BEGINN FFMPEG INSTALL
 ## BEGINN FFMPEG INSTALL
 
@@ -126,6 +120,14 @@ RUN mv ~/bin/ffmpeg /usr/local/bin && mv ~/bin/ffprobe /usr/local/bin && mv ~/bi
 
 ## END FFMPEG INSTALL
 ## END FFMPEG INSTALL
+
+
+# Add hls tmp folder just in case
+RUN mkdir -p /tmp/hls-encoder
+RUN mkdir -p /tmp/hls-passthrough
+RUN mkdir -p /tmp/log
+RUN mkdir -p /tmp/log/nginx
+RUN mkdir -p /tmp/log/ffmpeg
 
 
 # Forward logs to Docker
