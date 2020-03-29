@@ -127,6 +127,7 @@ RUN mkdir -p /tmp/rec
 RUN mkdir -p /tmp/rec/encoder-ingest
 RUN mkdir -p /tmp/rec/encoder-output
 RUN mkdir -p /tmp/rec/hls-pass
+RUN mkdir -p /tmp/dash
 RUN mkdir -p /tmp/hls
 RUN mkdir -p /tmp/hls/encoder-output
 RUN mkdir -p /tmp/hls/pass
