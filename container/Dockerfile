@@ -25,8 +25,8 @@ RUN curl -O http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1604/x
     apt-get purge cuda && \
     apt-get purge nvidia-* && \
     apt-get autoremove && \
-    apt-get install freeglut3 freeglut3-dev libxi-dev libxmu-dev && \
-    apt-get install cuda
+    apt-get install -y freeglut3 freeglut3-dev libxi-dev libxmu-dev && \
+    apt-get install -y cuda
 
 
 # Download and decompress Nginx
