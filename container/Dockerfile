@@ -20,7 +20,7 @@ RUN apt-get update && \
 RUN curl -O http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1604/x86_64/cuda-repo-ubuntu1604_10.0.130-1_amd64.deb && \
     dpkg -i cuda-repo-ubuntu1604_10.0.130-1_amd64.deb && \
     apt-key adv --fetch-keys http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1604/x86_64/7fa2af80.pub && \
-    sudo add-apt-repository universe && \
+    add-apt-repository universe && \
     apt-get update && \
     apt-get install freeglut3 freeglut3-dev libxi-dev libxmu-dev && \
     apt-get install cuda-10-2 && \
