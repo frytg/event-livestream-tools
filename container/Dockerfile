@@ -1,14 +1,20 @@
-## BEGINN FFMPEG INSTALL with CUDA
-## BEGINN FFMPEG INSTALL with CUDA
-
 # Start with NVidia CUDA base image
 FROM nvidia/cuda:9.1-devel
+
+
+# Kudos to Sebastian Ramirez <tiangolo@gmail.com> for the original nginx Dockerfile
+LABEL maintainer="Daniel Freytag <sys@frytg.com>"
+
 
 # Install dependent packages
 RUN apt-get -y update && \
     apt-get -y --force-yes install wget autoconf automake git build-essential libass-dev libfreetype6-dev libgpac-dev \
     libsdl1.2-dev libtheora-dev libtool libva-dev libvdpau-dev libvorbis-dev libxcb1-dev libxcb-shm0-dev \
     libxcb-xfixes0-dev pkg-config texi2html zlib1g-dev
+
+
+## BEGINN FFMPEG INSTALL with CUDA
+## BEGINN FFMPEG INSTALL with CUDA
 
 RUN git clone https://github.com/FFmpeg/nv-codec-headers /root/nv-codec-headers && \
   cd /root/nv-codec-headers &&\
@@ -75,23 +81,20 @@ RUN git clone https://github.com/FFmpeg/FFmpeg /root/ffmpeg && \
         --extra-cflags=-I/usr/local/cuda/include \
         --extra-cflags=-I/usr/local/include \
         --extra-ldflags=-L/usr/local/cuda/lib64 && \
+    export LD_LIBRARY_PATH=/usr/lib && \
     PATH="$HOME/bin:$PATH" make -j2 && \
     make install -j2 && \
+    hash -r && \
     cd /root && rm -rf ffmpeg
     # RUN mv ~/bin/ffmpeg /usr/local/bin && mv ~/bin/ffprobe /usr/local/bin && mv ~/bin/ffplay /usr/local/bin
 
+RUN locate ffmpeg && \
+    where ffmpeg && \
+    which ffmpeg
 RUN ffmpeg -version
-RUN where ffmpeg
 
 ## END FFMPEG INSTALL
 ## END FFMPEG INSTALL
-
-
-
-FROM buildpack-deps:stretch
-
-# Kudos to Sebastian Ramirez <tiangolo@gmail.com> for the original Dockerfile
-LABEL maintainer="Daniel Freytag <sys@frytg.com>"
 
 
 # Versions of Nginx and nginx-rtmp-module to use
@@ -104,8 +107,6 @@ ENV NVIDIA_DRIVER_CAPABILITIES video,compute,utility
 RUN apt-get update && \
     apt-get install -y ca-certificates openssl libssl-dev software-properties-common && \
     rm -rf /var/lib/apt/lists/*
-
-
 
 
 # Download and decompress Nginx
