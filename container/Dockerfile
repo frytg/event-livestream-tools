@@ -115,10 +115,16 @@ RUN mv ~/bin/ffmpeg /usr/local/bin && mv ~/bin/ffprobe /usr/local/bin && mv ~/bi
 RUN ln -sf /dev/stdout /var/log/nginx/stdout.log && \
     ln -sf /dev/stderr /var/log/nginx/stderr.log
 
+
 # Set up config file
 COPY nginx.conf /etc/nginx/nginx.conf
 COPY stat.xsl /etc/nginx/stat.xsl
 
+
+# Expose ports
 EXPOSE 1935
 EXPOSE 8080
+
+
+# Run nginx
 CMD ["nginx", "-g", "daemon off;"]

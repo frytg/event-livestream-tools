@@ -2,9 +2,6 @@ name: docker-push
 
 on:
   push:
-    branches:
-    - master
-
     tags:
     - v*
 
