@@ -1,69 +1,14 @@
-FROM buildpack-deps:stretch
+# Start with NVidia CUDA base image
+FROM nvidia/cuda:9.1-devel
 
-# Kudos to Sebastian Ramirez <tiangolo@gmail.com> for the original Dockerfile
-LABEL maintainer="Daniel Freytag <sys@frytg.com>"
+# Install dependent packages
+RUN apt-get -y update && apt-get install -y wget nano git build-essential yasm pkg-config
 
-
-# Versions of Nginx and nginx-rtmp-module to use
-ENV NGINX_VERSION nginx-1.16.1
-ENV NGINX_RTMP_MODULE_VERSION 1.2.1
-
-
-# Install dependencies
-RUN apt-get update && \
-    apt-get install -y ca-certificates openssl libssl-dev software-properties-common && \
-    rm -rf /var/lib/apt/lists/*
-
-
-# GPU INSTALL
-# https://cloud.google.com/compute/docs/gpus/install-drivers-gpu#ubuntu-driver-steps
-RUN curl -O http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1604/x86_64/cuda-repo-ubuntu1604_10.0.130-1_amd64.deb && \
-    dpkg -i cuda-repo-ubuntu1604_10.0.130-1_amd64.deb && \
-    apt-key adv --fetch-keys http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1604/x86_64/7fa2af80.pub && \
-    apt-get clean && \
-    apt-get update && \
-    apt-get purge cuda && \
-    apt-get purge nvidia-* && \
-    apt-get autoremove && \
-    apt-get install -y freeglut3 freeglut3-dev libxi-dev libxmu-dev && \
-    apt-get install -y cuda
-
-
-# Download and decompress Nginx
-RUN mkdir -p /tmp/build/nginx && \
-    cd /tmp/build/nginx && \
-    wget -O ${NGINX_VERSION}.tar.gz https://nginx.org/download/${NGINX_VERSION}.tar.gz && \
-    tar -zxf ${NGINX_VERSION}.tar.gz
-
-
-# Download and decompress RTMP module
-RUN mkdir -p /tmp/build/nginx-rtmp-module && \
-    cd /tmp/build/nginx-rtmp-module && \
-    wget -O nginx-rtmp-module-${NGINX_RTMP_MODULE_VERSION}.tar.gz https://github.com/arut/nginx-rtmp-module/archive/v${NGINX_RTMP_MODULE_VERSION}.tar.gz && \
-    tar -zxf nginx-rtmp-module-${NGINX_RTMP_MODULE_VERSION}.tar.gz && \
-    cd nginx-rtmp-module-${NGINX_RTMP_MODULE_VERSION}
-
-
-# Build and install Nginx
-# The default puts everything under /usr/local/nginx, so it's needed to change
-# it explicitly. Not just for order but to have it in the PATH
-RUN cd /tmp/build/nginx/${NGINX_VERSION} && \
-    ./configure \
-        --sbin-path=/usr/local/sbin/nginx \
-        --conf-path=/etc/nginx/nginx.conf \
-        --error-log-path=/var/log/nginx/error.log \
-        --pid-path=/var/run/nginx/nginx.pid \
-        --lock-path=/var/lock/nginx/nginx.lock \
-        --http-log-path=/var/log/nginx/access.log \
-        --http-client-body-temp-path=/tmp/nginx-client-body \
-        --with-http_ssl_module \
-        --with-threads \
-        --with-ipv6 \
-        --add-module=/tmp/build/nginx-rtmp-module/nginx-rtmp-module-${NGINX_RTMP_MODULE_VERSION} && \
-    make -j $(getconf _NPROCESSORS_ONLN) && \
-    make install && \
-    mkdir /var/lock/nginx && \
-    rm -rf /tmp/build
+RUN git clone https://github.com/FFmpeg/nv-codec-headers /root/nv-codec-headers && \
+  cd /root/nv-codec-headers &&\
+  make -j2 && \
+  make install -j2 && \
+  cd /root && rm -rf nv-codec-headers
 
 
 ## BEGINN FFMPEG INSTALL
@@ -141,6 +86,63 @@ RUN mv ~/bin/ffmpeg /usr/local/bin && mv ~/bin/ffprobe /usr/local/bin && mv ~/bi
 
 ## END FFMPEG INSTALL
 ## END FFMPEG INSTALL
+
+
+
+FROM buildpack-deps:stretch
+
+# Kudos to Sebastian Ramirez <tiangolo@gmail.com> for the original Dockerfile
+LABEL maintainer="Daniel Freytag <sys@frytg.com>"
+
+
+# Versions of Nginx and nginx-rtmp-module to use
+ENV NGINX_VERSION nginx-1.16.1
+ENV NGINX_RTMP_MODULE_VERSION 1.2.1
+
+
+# Install dependencies
+RUN apt-get update && \
+    apt-get install -y ca-certificates openssl libssl-dev software-properties-common && \
+    rm -rf /var/lib/apt/lists/*
+
+
+
+
+# Download and decompress Nginx
+RUN mkdir -p /tmp/build/nginx && \
+    cd /tmp/build/nginx && \
+    wget -O ${NGINX_VERSION}.tar.gz https://nginx.org/download/${NGINX_VERSION}.tar.gz && \
+    tar -zxf ${NGINX_VERSION}.tar.gz
+
+
+# Download and decompress RTMP module
+RUN mkdir -p /tmp/build/nginx-rtmp-module && \
+    cd /tmp/build/nginx-rtmp-module && \
+    wget -O nginx-rtmp-module-${NGINX_RTMP_MODULE_VERSION}.tar.gz https://github.com/arut/nginx-rtmp-module/archive/v${NGINX_RTMP_MODULE_VERSION}.tar.gz && \
+    tar -zxf nginx-rtmp-module-${NGINX_RTMP_MODULE_VERSION}.tar.gz && \
+    cd nginx-rtmp-module-${NGINX_RTMP_MODULE_VERSION}
+
+
+# Build and install Nginx
+# The default puts everything under /usr/local/nginx, so it's needed to change
+# it explicitly. Not just for order but to have it in the PATH
+RUN cd /tmp/build/nginx/${NGINX_VERSION} && \
+    ./configure \
+        --sbin-path=/usr/local/sbin/nginx \
+        --conf-path=/etc/nginx/nginx.conf \
+        --error-log-path=/var/log/nginx/error.log \
+        --pid-path=/var/run/nginx/nginx.pid \
+        --lock-path=/var/lock/nginx/nginx.lock \
+        --http-log-path=/var/log/nginx/access.log \
+        --http-client-body-temp-path=/tmp/nginx-client-body \
+        --with-http_ssl_module \
+        --with-threads \
+        --with-ipv6 \
+        --add-module=/tmp/build/nginx-rtmp-module/nginx-rtmp-module-${NGINX_RTMP_MODULE_VERSION} && \
+    make -j $(getconf _NPROCESSORS_ONLN) && \
+    make install && \
+    mkdir /var/lock/nginx && \
+    rm -rf /tmp/build
 
 
 # Add hls tmp folder just in case
