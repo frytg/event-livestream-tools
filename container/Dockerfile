@@ -137,7 +137,7 @@ RUN ln -sf /dev/stdout /tmp/log/nginx/stdout.log && \
 
 # Set up config file
 COPY nginx.conf /etc/nginx/nginx.conf
-COPY stat.xsl /etc/nginx/stat.xsl
+COPY stat.xsl /tmp/stat.xsl
 
 
 # Expose ports
