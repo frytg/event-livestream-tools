@@ -87,7 +87,7 @@ RUN git clone https://github.com/FFmpeg/FFmpeg /root/ffmpeg && \
         --extra-cflags=-I/usr/local/cuda/include \
         --extra-cflags=-I/usr/local/include \
         --extra-ldflags=-L/usr/local/cuda/lib64 && \
-    export LD_LIBRARY_PATH=/usr/lib && \
+    export LD_LIBRARY_PATH=/usr/local && \
     PATH="$HOME/bin:$PATH" make -j2 && \
     make install -j2 && \
     hash -r && \
