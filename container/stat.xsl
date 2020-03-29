@@ -208,7 +208,7 @@
             </xsl:call-template>
         </td>
     </tr>
-    <tr style="display:none">
+    <tr style="">
         <xsl:attribute name="id">
             <xsl:value-of select="../../name"/>-<xsl:value-of select="name"/>
         </xsl:attribute>

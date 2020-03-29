@@ -15,6 +15,15 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 
+# GPU INSTALL
+# https://cloud.google.com/compute/docs/gpus/install-drivers-gpu#ubuntu-driver-steps
+RUN curl -O http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1604/x86_64/cuda-repo-ubuntu1604_10.0.130-1_amd64.deb \
+    sudo dpkg -i cuda-repo-ubuntu1604_10.0.130-1_amd64.deb \
+    sudo apt-key adv --fetch-keys http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1604/x86_64/7fa2af80.pub \
+    sudo apt-get update \
+    sudo apt-get install cuda
+
+
 # Download and decompress Nginx
 RUN mkdir -p /tmp/build/nginx && \
     cd /tmp/build/nginx && \
@@ -62,6 +71,10 @@ RUN echo "deb http://www.deb-multimedia.org stretch main non-free" >> /etc/apt/s
 RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 5C808C2B65558117
 RUN apt-get update
 
+# Install ffnvcodec (https://developer.nvidia.com/ffmpeg)
+RUN git clone https://git.videolan.org/git/ffmpeg/nv-codec-headers.git \
+    cd nv-codec-headers && sudo make install -j2
+
 RUN apt-get update -qq && apt-get -y install \
       autoconf \
       automake \
@@ -103,6 +116,9 @@ RUN mkdir -p ~/ffmpeg_sources ~/bin && cd ~/ffmpeg_sources && \
       --extra-libs="-lpthread -lm" \
       --bindir="$HOME/bin" \
       --enable-libfdk-aac \
+      --enable-cuvid \
+      --enable-nvenc \
+      --enable-nvdec \
       --enable-gpl \
       --enable-libass \
       --enable-libfreetype \
@@ -114,7 +130,7 @@ RUN mkdir -p ~/ffmpeg_sources ~/bin && cd ~/ffmpeg_sources && \
       --enable-libx265 \
       --enable-nonfree && \
     PATH="$HOME/bin:$PATH" make -j8 && \
-    make install -j8 && \
+    make install -j2 && \
     hash -r
 RUN mv ~/bin/ffmpeg /usr/local/bin && mv ~/bin/ffprobe /usr/local/bin && mv ~/bin/ffplay /usr/local/bin
 

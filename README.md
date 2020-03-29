@@ -30,15 +30,19 @@ Point your encoder towards the final IP or DNS address and start streaming.
 
 ### INGEST
 ```
-rtmp://0.0.0.0/live
+rtmp://SERVER_IP/live
 ```
 Note: Streaming keys are flexible and not monitored!
 
 ### OUTPUT
 ```
-rtmp://0.0.0.0/live/STREAMING_KEY
+rtmp://SERVER_IP/live/STREAMING_KEY
 ```
 
+### CONTROL
+```
+http://SERVER_IP:8080/control/record/stop?app=encoder-ingest&name=stream1&rec=rec1
+```
 
 ## TODO
 
