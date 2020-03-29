@@ -123,8 +123,13 @@ RUN mv ~/bin/ffmpeg /usr/local/bin && mv ~/bin/ffprobe /usr/local/bin && mv ~/bi
 
 
 # Add hls tmp folder just in case
-RUN mkdir -p /tmp/hls-encoder
-RUN mkdir -p /tmp/hls-passthrough
+RUN mkdir -p /tmp/rec
+RUN mkdir -p /tmp/rec/encoder-ingest
+RUN mkdir -p /tmp/rec/encoder-output
+RUN mkdir -p /tmp/rec/hls-pass
+RUN mkdir -p /tmp/hls
+RUN mkdir -p /tmp/hls/encoder-output
+RUN mkdir -p /tmp/hls/pass
 RUN mkdir -p /tmp/log
 RUN mkdir -p /tmp/log/nginx
 RUN mkdir -p /tmp/log/ffmpeg

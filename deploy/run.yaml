@@ -16,3 +16,7 @@ imports:
 resources:
 - name: hello
   type: deploy-manager.jinja
+  properties:
+    zone: europe-west3-c
+    diskImage: projects/cos-cloud/global/images/cos-stable-81-12871-59-0
+    image: frytg/event-livestream-relay:conversion
