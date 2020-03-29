@@ -55,3 +55,5 @@ This project is licensed under the terms of the MIT License.
 - Deployment Manager [file samples](https://github.com/GoogleCloudPlatform/deploymentmanager-samples/tree/master/examples/v2)
 - GCP docs for [compute.v1.instance](https://cloud.google.com/compute/docs/reference/rest/v1/instances)
 - The [nginx-rtmp-module](https://github.com/arut/nginx-rtmp-module) on Github
+- FFMPEG encoding options for [H264](https://trac.ffmpeg.org/wiki/Encode/H.264)
+- FFMPEG encoding [codecs and flags](https://www.ffmpeg.org/ffmpeg-codecs.html)
