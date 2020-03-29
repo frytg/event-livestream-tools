@@ -94,10 +94,7 @@ RUN git clone https://github.com/FFmpeg/FFmpeg /root/ffmpeg && \
     cd /root && rm -rf ffmpeg
 RUN mv ~/bin/ffmpeg /usr/local/bin && mv ~/bin/ffprobe /usr/local/bin && mv ~/bin/ffplay /usr/local/bin
 
-RUN locate ffmpeg && \
-    where ffmpeg && \
-    which ffmpeg
-RUN ffmpeg -version
+RUN /usr/local/bin/ffmpeg -version
 
 ## END FFMPEG INSTALL
 ## END FFMPEG INSTALL
