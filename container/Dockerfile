@@ -129,8 +129,8 @@ RUN mv ~/bin/ffmpeg /usr/local/bin && mv ~/bin/ffprobe /usr/local/bin && mv ~/bi
 
 
 # Forward logs to Docker
-RUN ln -sf /dev/stdout /var/log/nginx/stdout.log && \
-    ln -sf /dev/stderr /var/log/nginx/stderr.log
+RUN ln -sf /dev/stdout /tmp/log/nginx/stdout.log && \
+    ln -sf /dev/stderr /tmp/log/nginx/stderr.log
 
 
 # Set up config file
