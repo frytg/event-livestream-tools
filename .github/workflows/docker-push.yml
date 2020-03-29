@@ -2,8 +2,12 @@ name: docker-push
 
 on:
   push:
+    branches:
+    - 'master'
+    - 'dev/*'
+
     tags:
-    - v*
+    - 'v*'
 
 env:
   IMAGE_NAME: basic
