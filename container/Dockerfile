@@ -18,10 +18,10 @@ RUN apt-get update && \
 # GPU INSTALL
 # https://cloud.google.com/compute/docs/gpus/install-drivers-gpu#ubuntu-driver-steps
 RUN curl -O http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1604/x86_64/cuda-repo-ubuntu1604_10.0.130-1_amd64.deb && \
-    sudo dpkg -i cuda-repo-ubuntu1604_10.0.130-1_amd64.deb && \
-    sudo apt-key adv --keyserver http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1604/x86_64/7fa2af80.pub && \
-    sudo apt-get update && \
-    sudo apt-get install cuda
+    dpkg -i cuda-repo-ubuntu1604_10.0.130-1_amd64.deb && \
+    apt-key adv --fetch-keys http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1604/x86_64/7fa2af80.pub && \
+    apt-get update && \
+    apt-get install cuda
 
 
 # Download and decompress Nginx
@@ -73,7 +73,7 @@ RUN apt-get update
 
 # Install ffnvcodec (https://developer.nvidia.com/ffmpeg)
 RUN git clone https://git.videolan.org/git/ffmpeg/nv-codec-headers.git \
-    cd nv-codec-headers && sudo make install -j2
+    cd nv-codec-headers && make install -j2
 
 RUN apt-get update -qq && apt-get -y install \
       autoconf \
