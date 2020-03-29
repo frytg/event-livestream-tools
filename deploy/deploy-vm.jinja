@@ -30,7 +30,7 @@ resources:
     metadata:
       items:
         - key: gce-container-declaration
-          value: "spec:\n  containers:\n    - name: {{ env["name"] }}-container-1\n      image: frytg/event-livestream-relay:latest\n      securityContext:\n        privileged: true\n      stdin: false\n      tty: false\n  restartPolicy: Always"
+          value: "spec:\n  containers:\n    - name: {{ env["name"] }}-container-1\n      image: {{ properties["image"] }}\n      securityContext:\n        privileged: true\n      stdin: false\n      tty: false\n  restartPolicy: Always"
           
 
 outputs:

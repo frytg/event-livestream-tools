@@ -7,18 +7,19 @@
 
 # Add all sub-deployments
 
-{% set CONFIG_ZONE = "europe-west3-c" %}
 
 resources:
 - name: disk-{{ env["deployment"] }}
   type: deploy-disk.jinja
   properties:
-    zone: {{ CONFIG_ZONE }}
+    zone: {{ properties["zone"] }}
+    diskImage: {{ properties["diskImage"] }}
 
 - name: vm-{{ env["deployment"] }}
   type: deploy-vm.jinja
   properties:
-    zone: {{ CONFIG_ZONE }}
+    zone: {{ properties["zone"] }}
+    image: {{ properties["image"] }}
 
 - name: network-{{ env["deployment"] }}
   type: deploy-network.jinja
