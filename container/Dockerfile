@@ -5,7 +5,7 @@ LABEL maintainer="Daniel Freytag <sys@frytg.com>"
 
 
 # Versions of Nginx and nginx-rtmp-module to use
-ENV NGINX_VERSION nginx-1.15.0
+ENV NGINX_VERSION nginx-1.16.1
 ENV NGINX_RTMP_MODULE_VERSION 1.2.1
 
 
@@ -53,8 +53,9 @@ RUN cd /tmp/build/nginx/${NGINX_VERSION} && \
 
 
 # Add hls tmp folder just in case
-RUN mkdir -p /tmp/hls
-RUN mkdir -p /tmp/ffmpeg_1
+RUN mkdir -p /tmp/hls-encoder
+RUN mkdir -p /tmp/hls-passthrough
+RUN mkdir -p /tmp/ffmpeg
 
 
 ## BEGINN FFMPEG INSTALL
