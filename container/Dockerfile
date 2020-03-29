@@ -20,7 +20,7 @@ RUN git clone https://github.com/FFmpeg/nv-codec-headers /root/nv-codec-headers 
 # See: https://trac.ffmpeg.org/wiki/CompilationGuide/Ubuntu
 # Source: https://stackoverflow.com/questions/53944487/how-to-install-ffmpeg-in-a-docker-container
 RUN echo "deb http://www.deb-multimedia.org stretch main non-free" >> /etc/apt/sources.list
-RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 5C808C2B65558117 && /
+RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 5C808C2B65558117 && \
     apt-get update
 
 
