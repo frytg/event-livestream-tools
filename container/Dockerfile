@@ -2,7 +2,10 @@
 FROM nvidia/cuda:9.1-devel
 
 # Install dependent packages
-RUN apt-get -y update && apt-get install -y wget nano git build-essential yasm pkg-config
+RUN apt-get -y update && /
+    apt-get -y --force-yes install wget autoconf automake build-essential libass-dev libfreetype6-dev libgpac-dev \
+    libsdl1.2-dev libtheora-dev libtool libva-dev libvdpau-dev libvorbis-dev libxcb1-dev libxcb-shm0-dev \
+    libxcb-xfixes0-dev pkg-config texi2html zlib1g-dev
 
 RUN git clone https://github.com/FFmpeg/nv-codec-headers /root/nv-codec-headers && \
   cd /root/nv-codec-headers &&\
@@ -18,65 +21,65 @@ RUN git clone https://github.com/FFmpeg/nv-codec-headers /root/nv-codec-headers 
 # See: https://trac.ffmpeg.org/wiki/CompilationGuide/Ubuntu
 # Source: https://stackoverflow.com/questions/53944487/how-to-install-ffmpeg-in-a-docker-container
 RUN echo "deb http://www.deb-multimedia.org stretch main non-free" >> /etc/apt/sources.list
-RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 5C808C2B65558117
-RUN apt-get update
+RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 5C808C2B65558117 && /
+    apt-get update
 
 
 RUN apt-get update -qq && apt-get -y install \
-      autoconf \
-      automake \
-      build-essential \
-      cmake \
-      git-core \
-      libass-dev \
-      libfreetype6-dev \
-      libsdl2-dev \
-      libtool \
-      libva-dev \
-      libvdpau-dev \
-      libvorbis-dev \
-      libxcb1-dev \
-      libxcb-shm0-dev \
-      libxcb-xfixes0-dev \
-      pkg-config \
-      texinfo \
-      wget \
-      zlib1g-dev \
-      nasm \
-      yasm \
-      libx265-dev \
-      libnuma-dev \
-      libvpx-dev \
-      libmp3lame-dev \
-      libopus-dev \
-      libx264-dev \
-      libfdk-aac-dev
+    autoconf \
+    automake \
+    build-essential \
+    cmake \
+    git-core \
+    libass-dev \
+    libfreetype6-dev \
+    libsdl2-dev \
+    libtool \
+    libva-dev \
+    libvdpau-dev \
+    libvorbis-dev \
+    libxcb1-dev \
+    libxcb-shm0-dev \
+    libxcb-xfixes0-dev \
+    pkg-config \
+    texinfo \
+    wget \
+    zlib1g-dev \
+    nasm \
+    yasm \
+    libx265-dev \
+    libnuma-dev \
+    libvpx-dev \
+    libmp3lame-dev \
+    libopus-dev \
+    libx264-dev \
+    libfdk-aac-dev
 
 RUN git clone https://github.com/FFmpeg/FFmpeg /root/ffmpeg && \
-  cd /root/ffmpeg && ./configure \
-      --prefix="$HOME/ffmpeg_build" \
-      --pkg-config-flags="--static" \
-      --enable-libfdk-aac \
-      --enable-cuvid \
-      --enable-nvenc \
-      --enable-nvdec \
-      --enable-gpl \
-      --enable-libass \
-      --enable-libfreetype \
-      --enable-libmp3lame \
-      --enable-libopus \
-      --enable-libvorbis \
-      --enable-libvpx \
-      --enable-libx264 \
-      --enable-libx265 \
-      --enable-nonfree \
-      --extra-cflags=-I/usr/local/cuda/include \
-      --extra-cflags=-I/usr/local/include \
-      --extra-ldflags=-L/usr/local/cuda/lib64 && \
+    cd /root/ffmpeg && ./configure \
+        --prefix="$HOME/ffmpeg_build" \
+        --pkg-config-flags="--static" \
+        --enable-libfdk-aac \
+        --enable-cuvid \
+        --enable-nvenc \
+        --enable-nvdec \
+        --enable-gpl \
+        --enable-libass \
+        --enable-libfreetype \
+        --enable-libmp3lame \
+        --enable-libopus \
+        --enable-libvorbis \
+        --enable-libvpx \
+        --enable-libx264 \
+        --enable-libx265 \
+        --enable-nonfree \
+        --extra-cflags=-I/usr/local/cuda/include \
+        --extra-cflags=-I/usr/local/include \
+        --extra-ldflags=-L/usr/local/cuda/lib64 && \
     PATH="$HOME/bin:$PATH" make -j2 && \
     make install -j2 && \
-    hash -r
-RUN mv ~/bin/ffmpeg /usr/local/bin && mv ~/bin/ffprobe /usr/local/bin && mv ~/bin/ffplay /usr/local/bin
+    cd /root && rm -rf ffmpeg
+    # RUN mv ~/bin/ffmpeg /usr/local/bin && mv ~/bin/ffprobe /usr/local/bin && mv ~/bin/ffplay /usr/local/bin
 
 ## END FFMPEG INSTALL
 ## END FFMPEG INSTALL
