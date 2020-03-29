@@ -5,7 +5,7 @@
 FROM nvidia/cuda:9.1-devel
 
 # Install dependent packages
-RUN apt-get -y update && /
+RUN apt-get -y update && \
     apt-get -y --force-yes install wget autoconf automake build-essential libass-dev libfreetype6-dev libgpac-dev \
     libsdl1.2-dev libtheora-dev libtool libva-dev libvdpau-dev libvorbis-dev libxcb1-dev libxcb-shm0-dev \
     libxcb-xfixes0-dev pkg-config texi2html zlib1g-dev
