@@ -30,7 +30,7 @@ RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 5C808C2B65
     apt-get update
 
 
-RUN apt-get update -qq && apt-get -y install \
+RUN apt-get -y install \
     autoconf \
     automake \
     build-essential \
@@ -61,9 +61,15 @@ RUN apt-get update -qq && apt-get -y install \
     libfdk-aac-dev
 
 RUN git clone https://github.com/FFmpeg/FFmpeg /root/ffmpeg && \
-    cd /root/ffmpeg && ./configure \
+    cd /root/ffmpeg && \
+    PATH="$HOME/bin:$PATH" && \
+    ./configure \
         --prefix="$HOME/ffmpeg_build" \
         --pkg-config-flags="--static" \
+        --extra-cflags="-I$HOME/ffmpeg_build/include" \
+        --extra-ldflags="-L$HOME/ffmpeg_build/lib" \
+        --extra-libs="-lpthread -lm" \
+        --bindir="$HOME/bin" \
         --enable-libfdk-aac \
         --enable-cuvid \
         --enable-nvenc \
@@ -86,7 +92,7 @@ RUN git clone https://github.com/FFmpeg/FFmpeg /root/ffmpeg && \
     make install -j2 && \
     hash -r && \
     cd /root && rm -rf ffmpeg
-    # RUN mv ~/bin/ffmpeg /usr/local/bin && mv ~/bin/ffprobe /usr/local/bin && mv ~/bin/ffplay /usr/local/bin
+RUN mv ~/bin/ffmpeg /usr/local/bin && mv ~/bin/ffprobe /usr/local/bin && mv ~/bin/ffplay /usr/local/bin
 
 RUN locate ffmpeg && \
     where ffmpeg && \
