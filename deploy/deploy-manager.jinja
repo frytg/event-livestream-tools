@@ -19,6 +19,7 @@ resources:
   type: deploy-vm.jinja
   properties:
     zone: {{ properties["zone"] }}
+    machineType: {{ properties["machineType"] }}
     image: {{ properties["image"] }}
 
 - name: network-{{ env["deployment"] }}

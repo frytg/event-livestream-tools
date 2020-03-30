@@ -128,6 +128,8 @@ RUN mkdir -p /tmp/rec/encoder-ingest
 RUN mkdir -p /tmp/rec/multiplex
 RUN mkdir -p /tmp/rec/hls-pass
 RUN mkdir -p /tmp/dash
+RUN mkdir -p /tmp/dash/multiplex
+RUN mkdir -p /tmp/dash/pass
 RUN mkdir -p /tmp/hls
 RUN mkdir -p /tmp/hls/multiplex
 RUN mkdir -p /tmp/hls/pass
