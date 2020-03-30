@@ -13,4 +13,4 @@ resources:
   properties:
     zone: {{ properties["zone"] }}
     type: projects/{{ env["project"] }}/zones/{{ properties["zone"] }}/diskTypes/pd-ssd
-    sourceImage: projects/cos-cloud/global/images/cos-stable-80-12739-104-0
+    sourceImage: {{ properties["diskImage"] }}
