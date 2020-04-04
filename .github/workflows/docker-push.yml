@@ -11,7 +11,7 @@ on:
 
 env:
   IMAGE_NAME: basic
-  FPS: 25fps
+  FPS: base
 
 
 jobs:
@@ -44,10 +44,10 @@ jobs:
           [ "$VERSION" == "master" ] && VERSION=latest
          
           echo IMAGE_ID=$IMAGE_ID
-          echo VERSION=$VERSION-$FPS
+          echo VERSION=$VERSION
          
-          docker tag image $IMAGE_ID:$VERSION-$FPS
-          docker push $IMAGE_ID:$VERSION-$FPS
+          docker tag image $IMAGE_ID:$VERSION
+          docker push $IMAGE_ID:$VERSION
 
     - name: Logout 👋
       run: "docker logout"
