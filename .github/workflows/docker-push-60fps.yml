@@ -44,10 +44,10 @@ jobs:
           [ "$VERSION" == "master" ] && VERSION=latest
          
           echo IMAGE_ID=$IMAGE_ID
-          echo VERSION=$FPS-$VERSION
+          echo VERSION=$VERSION-$FPS
          
-          docker tag image $IMAGE_ID:$VERSION
-          docker push $IMAGE_ID:$VERSION
+          docker tag image $IMAGE_ID:$VERSION-$FPS
+          docker push $IMAGE_ID:$VERSION-$FPS
 
     - name: Logout 👋
       run: "docker logout"
