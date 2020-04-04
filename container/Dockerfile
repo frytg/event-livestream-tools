@@ -5,6 +5,7 @@ LABEL maintainer="Daniel Freytag <sys@frytg.com>"
 
 
 # Versions of Nginx and nginx-rtmp-module to use
+ARG fps
 ENV NGINX_VERSION nginx-1.16.1
 ENV NGINX_RTMP_MODULE_VERSION 1.2.1
 
@@ -144,7 +145,7 @@ RUN ln -sf /dev/stdout /tmp/log/nginx/stdout.log && \
 
 
 # Set up config file
-COPY nginx.conf /etc/nginx/nginx.conf
+COPY $fps/nginx.conf /etc/nginx/nginx.conf
 COPY stat.xsl /tmp/stat.xsl
 
 
