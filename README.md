@@ -1,8 +1,8 @@
 # event-livestream-relay
   
-![docker-push](https://github.com/frytg/event-livestream-relay/workflows/docker-push/badge.svg?branch=master) [![](https://images.microbadger.com/badges/version/frytg/event-livestream-relay.svg)](https://microbadger.com/images/frytg/event-livestream-relay "Get your own version badge on microbadger.com")  
+![docker-push](https://github.com/frytg/event-livestream-relay/workflows/docker-push/badge.svg?branch=master)
   
-This service runs on [nginx-rtmp-module](https://github.com/arut/nginx-rtmp-module/issues) to provide an RTMP relay service. The deployment is automated via Deployment Manager on GCP. It is designed to quickly set it up for events and then trash the project via
+This service runs on [nginx-rtmp-module](https://github.com/arut/nginx-rtmp-module) to provide an RTMP relay service. The deployment is automated via Deployment Manager on GCP. It is designed to quickly set it up for events and then trash the project via
 
 ## INSTALL
 
