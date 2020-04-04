@@ -14,7 +14,7 @@ This service runs on [nginx-rtmp-module](https://github.com/arut/nginx-rtmp-modu
 
 ### DEPLOY
 
-From within this working directory run this command 
+From within this working directory run this command
 
 ```shell
 gcloud deployment-manager deployments create DEPLOYMENT_NAME --project PROJECT_ID --config ./deploy/run.yaml
