@@ -1,0 +1,30 @@
+# 
+#  AUTHOR		
+#    Daniel Freytag
+#	   https://github.com/frytg
+#    https://twitter.com/FRYTG
+# 
+
+imports:
+- path: deploy-disk.jinja
+- path: deploy-vm.jinja
+- path: deploy-network.jinja
+- path: deploy-firewall.jinja
+- path: deploy-ip.jinja
+- path: deploy-manager.jinja
+
+resources:
+- name: hello
+  type: deploy-manager.jinja
+  properties:
+    # Set zone
+    zone: europe-west4-c
+
+    # Set Compute machine type
+    machineType: n2-highcpu-16
+
+    # Load nvidia image for machein
+    diskImage: projects/cos-cloud/global/images/cos-stable-81-12871-59-0
+
+    ## Load own imge for docker
+    image: frytg/event-livestream-relay:latest-25fps
