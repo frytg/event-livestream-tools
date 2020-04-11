@@ -1,0 +1,44 @@
+# 
+#  AUTHOR		
+#    Daniel Freytag
+#	   https://github.com/frytg
+#    https://twitter.com/FRYTG
+# 
+
+# Deploy primary VM machine
+
+resources:
+- name: {{ env["name"] }}
+  type: compute.v1.instance
+  properties:
+    zone: {{ properties["zone"] }}
+    machineType: zones/{{ properties["zone"] }}/machineTypes/{{ properties["machineType"] }}
+    
+    disks:
+    - deviceName: boot
+      source: $(ref.disk-{{ env["deployment"] }}.selfLink)
+      boot: true
+      autoDelete: true
+
+    networkInterfaces:
+    - network: $(ref.network-{{ env["deployment"] }}.selfLink)
+      accessConfigs:
+      - name: External NAT
+        type: ONE_TO_ONE_NAT
+        networkTier: PREMIUM
+
+    scheduling:
+      onHostMaintenance: TERMINATE
+      automaticRestart: true
+
+    displayDevice:
+      enableDisplay: true
+
+    guestAccelerators:
+      - acceleratorType: projects/{{ env["project"] }}/zones/{{ properties["zone"] }}/acceleratorTypes/nvidia-tesla-p100-vws
+        acceleratorCount: 1
+
+        
+outputs:
+- name: externalNatIp
+  value: $(ref.{{ env["name"] }}.networkInterfaces[0].accessConfigs[0].natIP)

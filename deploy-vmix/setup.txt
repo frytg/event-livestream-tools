@@ -1,0 +1,24 @@
+# Install Google Chrome
+$Path = $env:TEMP; $Installer = "chrome_installer.exe"; Invoke-WebRequest "http://dl.google.com/chrome/install/375.126/chrome_installer.exe" -OutFile $Path\$Installer; Start-Process -FilePath $Path\$Installer -Args "/silent /install" -Verb RunAs -Wait; Remove-Item $Path\$Installer
+
+# Enable .net 3.5 in Control Panel -> Turn on off
+Install-WindowsFeature Net-Framework-Core -source \\network\share\sxs
+
+# Install GPU 
+https://cloud.google.com/compute/docs/gpus/install-grid-drivers
+https://storage.googleapis.com/nvidia-drivers-us-public/GRID/GRID8.1/426.04_grid_win10_server2016_server2019_64bit_international.exe
+
+# Enable windows audio services
+
+# install vmix
+https://www.vmix.com/
+
+# install vmix vlc
+https://www.vmix.com/vlcdownload
+
+# install ngrok
+https://ngrok.com/download
+
+# Setup SRT
+
+# Setup Output 2 -> Multiview

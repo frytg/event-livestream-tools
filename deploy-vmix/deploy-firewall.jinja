@@ -1,0 +1,78 @@
+# 
+#  AUTHOR		
+#    Daniel Freytag
+#	   https://github.com/frytg
+#    https://twitter.com/FRYTG
+# 
+
+# Deploy Firewall rules used
+
+resources:
+# Allow incoming RTMP stream via :1935
+- name: rtmp-ingress-{{ env["deployment"] }}
+  type: compute.v1.firewall
+  properties:
+    network: $(ref.network-{{ env["deployment"] }}.selfLink)
+    sourceRanges: ["0.0.0.0/0"]
+    direction: INGRESS
+    allowed:
+    - IPProtocol: TCP
+      ports: ["1935", "1936", "1937"]
+    - IPProtocol: UDP
+      ports: ["1935", "1936", "1937"]
+
+# Allow outgoing RTMP stream via :1935
+- name: rtmp-egress-{{ env["deployment"] }}
+  type: compute.v1.firewall
+  properties:
+    network: $(ref.network-{{ env["deployment"] }}.selfLink)
+    destinationRanges: ["0.0.0.0/0"]
+    direction: EGRESS
+    allowed:
+    - IPProtocol: TCP
+      ports: ["1935", "1936", "1937"]
+    - IPProtocol: UDP
+      ports: ["1935", "1936", "1937"]
+
+
+# Allow incoming HTTP calls via :8080
+- name: http-ingress-{{ env["deployment"] }}
+  type: compute.v1.firewall
+  properties:
+    network: $(ref.network-{{ env["deployment"] }}.selfLink)
+    sourceRanges: ["0.0.0.0/0"]
+    direction: INGRESS
+    allowed:
+    - IPProtocol: TCP
+      ports: ["8080"]
+
+# Allow incoming SSH connections
+- name: ssh-ingress-{{ env["deployment"] }}
+  type: compute.v1.firewall
+  properties:
+    network: $(ref.network-{{ env["deployment"] }}.selfLink)
+    sourceRanges: ["0.0.0.0/0"]
+    direction: INGRESS
+    allowed:
+    - IPProtocol: TCP
+      ports: ["22"]
+
+- name: rdp-ingress-{{ env["deployment"] }}
+  type: compute.v1.firewall
+  properties:
+    network: $(ref.network-{{ env["deployment"] }}.selfLink)
+    sourceRanges: ["0.0.0.0/0"]
+    direction: INGRESS
+    allowed:
+    - IPProtocol: TCP
+      ports: ["3389"]
+
+- name: rdp-egress-{{ env["deployment"] }}
+  type: compute.v1.firewall
+  properties:
+    network: $(ref.network-{{ env["deployment"] }}.selfLink)
+    destinationRanges: ["0.0.0.0/0"]
+    direction: EGRESS
+    allowed:
+    - IPProtocol: TCP
+      ports: ["3389"]
