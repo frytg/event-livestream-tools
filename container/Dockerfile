@@ -60,8 +60,9 @@ RUN cd /tmp/build/nginx/${NGINX_VERSION} && \
 
 
 # Download and build srt module
-RUN git clone https://github.com/Haivision/srt.git && \
+RUN git clone https://github.com/ethouris/srt.git && \
     cd srt && \
+    git checkout dev-fix-socket-epoll-disbinding-order && \
     ./configure && \
     make && make install
 
