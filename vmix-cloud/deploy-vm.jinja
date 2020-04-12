@@ -35,8 +35,8 @@ resources:
       enableDisplay: true
 
     guestAccelerators:
-      - acceleratorType: projects/{{ env["project"] }}/zones/{{ properties["zone"] }}/acceleratorTypes/nvidia-tesla-p100-vws
-        acceleratorCount: 1
+      - acceleratorType: projects/{{ env["project"] }}/zones/{{ properties["zone"] }}/acceleratorTypes/{{ properties["gpuType"] }}
+        acceleratorCount: {{ properties["gpuCount"] }}
 
         
 outputs:

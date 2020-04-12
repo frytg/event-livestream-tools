@@ -23,6 +23,10 @@ resources:
     # Set Compute machine type
     machineType: n1-standard-16
 
+    # Set GPU type
+    gpuType: nvidia-tesla-t4-vws
+    gpuCount: 1
+
     # Load nvidia image for machein
     diskImage: projects/windows-cloud/global/images/windows-server-2019-dc-v20200310
 

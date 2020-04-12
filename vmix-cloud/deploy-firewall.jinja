@@ -9,7 +9,7 @@
 
 resources:
 # Allow incoming video stream via :1935++
-- name: video-ingress-{{ env["deployment"] }}
+- name: {{ env["deployment"] }}-video-ingress
   type: compute.v1.firewall
   properties:
     network: $(ref.network-{{ env["deployment"] }}.selfLink)
@@ -22,7 +22,7 @@ resources:
       ports: ["1935", "1936", "1937"]
 
 # Allow outgoing video stream via :1935++
-- name: video-egress-{{ env["deployment"] }}
+- name: {{ env["deployment"] }}-video-egress
   type: compute.v1.firewall
   properties:
     network: $(ref.network-{{ env["deployment"] }}.selfLink)
@@ -36,7 +36,7 @@ resources:
 
 
 # Allow incoming HTTP calls via :8080
-- name: http-ingress-{{ env["deployment"] }}
+- name: {{ env["deployment"] }}-http-ingress
   type: compute.v1.firewall
   properties:
     network: $(ref.network-{{ env["deployment"] }}.selfLink)
@@ -47,7 +47,7 @@ resources:
       ports: ["8080"]
 
 # Allow incoming SSH connections
-- name: ssh-ingress-{{ env["deployment"] }}
+- name: {{ env["deployment"] }}-ssh-ingress
   type: compute.v1.firewall
   properties:
     network: $(ref.network-{{ env["deployment"] }}.selfLink)
@@ -57,7 +57,7 @@ resources:
     - IPProtocol: TCP
       ports: ["22"]
 
-- name: rdp-ingress-{{ env["deployment"] }}
+- name: {{ env["deployment"] }}-rdp-ingress
   type: compute.v1.firewall
   properties:
     network: $(ref.network-{{ env["deployment"] }}.selfLink)
@@ -67,7 +67,7 @@ resources:
     - IPProtocol: TCP
       ports: ["3389"]
 
-- name: rdp-egress-{{ env["deployment"] }}
+- name: {{ env["deployment"] }}-rdp-egress
   type: compute.v1.firewall
   properties:
     network: $(ref.network-{{ env["deployment"] }}.selfLink)

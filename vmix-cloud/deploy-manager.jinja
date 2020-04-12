@@ -20,6 +20,8 @@ resources:
   properties:
     zone: {{ properties["zone"] }}
     machineType: {{ properties["machineType"] }}
+    gpuType: {{ properties["gpuType"] }}
+    gpuCount: {{ properties["gpuCount"] }}
     image: {{ properties["image"] }}
 
 - name: network-{{ env["deployment"] }}
