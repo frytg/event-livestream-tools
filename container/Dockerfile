@@ -12,7 +12,7 @@ ENV NGINX_RTMP_MODULE_VERSION 1.2.1
 
 # Install dependencies
 RUN apt-get update && \
-    apt-get install -y ca-certificates openssl libssl-dev && \
+    apt-get install -y ca-certificates openssl libssl-dev tclsh && \
     rm -rf /var/lib/apt/lists/*
 
 
@@ -51,6 +51,13 @@ RUN cd /tmp/build/nginx/${NGINX_VERSION} && \
     make install && \
     mkdir /var/lock/nginx && \
     rm -rf /tmp/build
+
+
+# Download and build srt module
+RUN git clone https://github.com/Haivision/srt.git \
+    cd srt \
+    ./configure \
+    make && make install
 
 
 ## BEGINN FFMPEG INSTALL
@@ -103,6 +110,7 @@ RUN mkdir -p ~/ffmpeg_sources ~/bin && cd ~/ffmpeg_sources && \
       --extra-ldflags="-L$HOME/ffmpeg_build/lib" \
       --extra-libs="-lpthread -lm" \
       --bindir="$HOME/bin" \
+      --enable-libsrt \
       --enable-libfdk-aac \
       --enable-gpl \
       --enable-libass \

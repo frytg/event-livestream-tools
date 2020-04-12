@@ -8,19 +8,21 @@
 # Deploy Firewall rules used
 
 resources:
-# Allow incoming RTMP stream via :1935
-- name: rtmp-ingress-{{ env["deployment"] }}
+# Allow incoming RTMP stream via :1935++
+- name: video-ingress-{{ env["deployment"] }}
   type: compute.v1.firewall
   properties:
     network: $(ref.network-{{ env["deployment"] }}.selfLink)
     sourceRanges: ["0.0.0.0/0"]
     direction: INGRESS
     allowed:
-    - IPProtocol: TCP
-      ports: ["1935"]
+    -- IPProtocol: TCP
+      ports: ["1935", "1936", "1937"]
+    - IPProtocol: UDP
+      ports: ["1935", "1936", "1937"]
 
-# Allow outgoing RTMP stream via :1935
-- name: rtmp-egress-{{ env["deployment"] }}
+# Allow outgoing RTMP stream via :1935++
+- name: video-egress-{{ env["deployment"] }}
   type: compute.v1.firewall
   properties:
     network: $(ref.network-{{ env["deployment"] }}.selfLink)
@@ -28,7 +30,9 @@ resources:
     direction: EGRESS
     allowed:
     - IPProtocol: TCP
-      ports: ["1935"]
+      ports: ["1935", "1936", "1937"]
+    - IPProtocol: UDP
+      ports: ["1935", "1936", "1937"]
 
 # Allow incoming HTTP calls via :8080
 - name: http-ingress-{{ env["deployment"] }}
