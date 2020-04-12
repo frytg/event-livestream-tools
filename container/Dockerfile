@@ -54,9 +54,9 @@ RUN cd /tmp/build/nginx/${NGINX_VERSION} && \
 
 
 # Download and build srt module
-RUN git clone https://github.com/Haivision/srt.git \
-    cd srt \
-    ./configure \
+RUN git clone https://github.com/Haivision/srt.git && \
+    cd srt && \
+    ./configure && \
     make && make install
 
 

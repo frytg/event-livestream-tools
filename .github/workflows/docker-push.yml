@@ -1,4 +1,4 @@
-name: docker-push 25fps
+name: docker-push base
 
 on:
   push:
