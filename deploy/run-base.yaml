@@ -27,4 +27,4 @@ resources:
     diskImage: projects/cos-cloud/global/images/cos-stable-81-12871-69-0
 
     ## Load own imge for docker
-    image: frytg/event-livestream-relay:latest-25fps
+    image: frytg/event-livestream-relay:srt

@@ -9,20 +9,20 @@
 
 resources:
 # Allow incoming RTMP stream via :1935++
-- name: video-ingress-{{ env["deployment"] }}
+- name: {{ env["deployment"] }}-video-ingress
   type: compute.v1.firewall
   properties:
     network: $(ref.network-{{ env["deployment"] }}.selfLink)
     sourceRanges: ["0.0.0.0/0"]
     direction: INGRESS
     allowed:
-    -- IPProtocol: TCP
+    - IPProtocol: TCP
       ports: ["1935", "1936", "1937"]
     - IPProtocol: UDP
       ports: ["1935", "1936", "1937"]
 
 # Allow outgoing RTMP stream via :1935++
-- name: video-egress-{{ env["deployment"] }}
+- name: {{ env["deployment"] }}-video-egress
   type: compute.v1.firewall
   properties:
     network: $(ref.network-{{ env["deployment"] }}.selfLink)
@@ -35,7 +35,7 @@ resources:
       ports: ["1935", "1936", "1937"]
 
 # Allow incoming HTTP calls via :8080
-- name: http-ingress-{{ env["deployment"] }}
+- name: {{ env["deployment"] }}-http-ingress
   type: compute.v1.firewall
   properties:
     network: $(ref.network-{{ env["deployment"] }}.selfLink)
@@ -46,7 +46,7 @@ resources:
       ports: ["8080"]
 
 # Allow incoming SSH connections
-- name: ssh-ingress-{{ env["deployment"] }}
+- name: {{ env["deployment"] }}-ssh-ingress
   type: compute.v1.firewall
   properties:
     network: $(ref.network-{{ env["deployment"] }}.selfLink)
