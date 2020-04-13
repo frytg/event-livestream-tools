@@ -1,0 +1,38 @@
+# 
+#  AUTHOR		
+#    Daniel Freytag
+#	   https://github.com/frytg
+#    https://twitter.com/FRYTG
+# 
+
+# Add all sub-deployments
+
+
+resources:
+- name: disk-{{ env["deployment"] }}
+  type: deploy-disk.jinja
+  properties:
+    zone: {{ properties["zone"] }}
+    diskImage: {{ properties["diskImage"] }}
+
+- name: vm-{{ env["deployment"] }}
+  type: deploy-vm.jinja
+  properties:
+    zone: {{ properties["zone"] }}
+    machineType: {{ properties["machineType"] }}
+    gpuType: {{ properties["gpuType"] }}
+    gpuCount: {{ properties["gpuCount"] }}
+    image: {{ properties["image"] }}
+
+- name: network-{{ env["deployment"] }}
+  type: deploy-network.jinja
+
+- name: firewall-{{ env["deployment"] }}
+  type: deploy-firewall.jinja
+
+- name: ip-{{ env["deployment"] }}
+  type: deploy-ip.jinja
+
+outputs:
+- name: deployment
+  value: {{ env["deployment"] }}

@@ -21,10 +21,10 @@ resources:
     zone: europe-west4-c
 
     # Set Compute machine type
-    machineType: n2-highcpu-16
+    machineType: n2-highcpu-2
 
     # Load nvidia image for machein
-    diskImage: projects/cos-cloud/global/images/cos-stable-81-12871-59-0
+    diskImage: projects/cos-cloud/global/images/cos-stable-81-12871-69-0
 
     ## Load own imge for docker
-    image: frytg/event-livestream-relay:latest-25fps
+    image: frytg/event-livestream-relay:srt

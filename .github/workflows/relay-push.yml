@@ -1,4 +1,4 @@
-name: docker-push 25fps
+name: relay push base
 
 on:
   push:
@@ -25,7 +25,7 @@ jobs:
       run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u ${{ secrets.DOCKER_USER }} --password-stdin
 
     - name: Building docker image 🚧
-      run: "docker build ./container/ --file ./container/Dockerfile -t image --build-arg fps=$FPS"
+      run: "docker build ./relay/container/ --file ./relay/container/Dockerfile -t image --build-arg fps=$FPS"
 
     - name: Push image to Dockerhub 🚀
       run: |
