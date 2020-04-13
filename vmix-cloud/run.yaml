@@ -18,7 +18,7 @@ resources:
   type: deploy-manager.jinja
   properties:
     # Set zone
-    zone: europe-west4-a
+    zone: europe-west4-c
 
     # Set Compute machine type
     machineType: n1-standard-16
