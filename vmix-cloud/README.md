@@ -2,8 +2,10 @@
 
 ## vMix in the cloud
 
-This guide will help install vMix on a virtual cloud machine using Windows Server and Nvidia GPU graphics. Please note that this is also an experiment and its usage in a production environment should be done responsibly and with your own judgement.  
-Basic knowledge and setup of the Google Cloud Platform is required.
+This guide will help install vMix on a virtual cloud machine using Windows Server and Nvidia GPU graphics within GCP.  
+Please note that this is also an experiment and its usage in a production environment should be done responsibly and with your own judgement.  
+Basic knowledge and setup of the Google Cloud Platform is required.  
+Kudos to [VRT/ RTBF](https://www.videosnackbarhub.com/blogposts/tutorial-how-to-set-up-a-cloud-based-high-end-live-remote-multicam-production) for their inspiration of vMix in the cloud (Paperspace).
 
 ## Setup Compute Engine
 
@@ -73,3 +75,5 @@ This project is licensed under the terms of the MIT License.
 ## Links
 
 - [vMIX](https://www.vmix.com/)
+- [vMix on Paperspace](https://www.videosnackbarhub.com/blogposts/tutorial-how-to-set-up-a-cloud-based-high-end-live-remote-multicam-production)
+- [GPUs on Virtual Workstations](https://cloud.google.com/compute/docs/gpus#gpu-virtual-workstations)

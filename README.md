@@ -7,6 +7,7 @@ See [relay/README](relay/README.md)
 
 ## vMix in the cloud
 
+This guide will install vMix on a virtual cloud machine using Windows Server and Nvidia GPU graphics within GCP.  
 See [vmix-cloud/README](vmix-cloud/README.md)
 
 ## License
