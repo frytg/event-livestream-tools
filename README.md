@@ -12,7 +12,7 @@ See [vmix-cloud/README](vmix-cloud/README.md)
 
 ## License
 
-This project is licensed under the terms of the MIT License.
+This project is available under the [hippocratic-license](https://github.com/EthicalSource/hippocratic-license); see [LICENSE](LICENSE).
 
 ## Links
 

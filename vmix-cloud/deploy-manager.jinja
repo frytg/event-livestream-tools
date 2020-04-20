@@ -22,7 +22,7 @@ resources:
     machineType: {{ properties["machineType"] }}
     gpuType: {{ properties["gpuType"] }}
     gpuCount: {{ properties["gpuCount"] }}
-    image: {{ properties["image"] }}
+    startupScriptUrl: {{ properties["startupScriptUrl"] }}
 
 - name: network-{{ env["deployment"] }}
   type: deploy-network.jinja

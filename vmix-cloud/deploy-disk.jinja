@@ -15,9 +15,9 @@ resources:
     type: projects/{{ env["project"] }}/zones/{{ properties["zone"] }}/diskTypes/pd-ssd
     sourceImage: {{ properties["diskImage"] }}
 
-- name: {{ env["name"] }}-data
-  type: compute.v1.disk
-  properties:
-    zone: {{ properties["zone"] }}
-    type: projects/{{ env["project"] }}/zones/{{ properties["zone"] }}/diskTypes/pd-ssd
-    sizeGb: 128
+# - name: {{ env["name"] }}-data
+#  type: compute.v1.disk
+#  properties:
+#    zone: {{ properties["zone"] }}
+#    type: projects/{{ env["project"] }}/zones/{{ properties["zone"] }}/diskTypes/pd-ssd
+#    sizeGb: 128

@@ -21,14 +21,14 @@ resources:
     zone: europe-west4-c
 
     # Set Compute machine type
-    machineType: n1-standard-16
+    machineType: n1-standard-4
 
     # Set GPU type
     gpuType: nvidia-tesla-t4-vws
     gpuCount: 1
 
     # Load nvidia image for machein
-    diskImage: projects/windows-cloud/global/images/windows-server-2019-dc-v20200310
+    diskImage: projects/windows-cloud/global/images/windows-server-2019-dc-v20200414
 
-    ## Load own imge for docker
-    image: frytg/event-livestream-relay:latest-25fps
+    # Set startup script path
+    startupScriptUrl: gs://event-livestream-tools/vmix-cloud/startup/powershell-v2.ps1

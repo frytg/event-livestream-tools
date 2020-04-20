@@ -20,39 +20,10 @@ Now connect to the machine using [Google Cloud RDP](https://chrome.google.com/we
 
 ## Setup Microsoft Environment
 
-### Install Google Chrome
+### Setup dependencies
 
-This is not required, but will make your life a lot easier, since Microsoft Server ships with Internet Explorer... To install open PowerShell and run this command
-
-```shell
-$Path = $env:TEMP; $Installer = "chrome_installer.exe"; Invoke-WebRequest "http://dl.google.com/chrome/install/375.126/chrome_installer.exe" -OutFile $Path\$Installer; Start-Process -FilePath $Path\$Installer -Args "/silent /install" -Verb RunAs -Wait; Remove-Item $Path\$Installer
-```
-
-### Enable .NET 3.5
-
-Install .NET 3.5 using either the Control Panel and "Turn Windows features on or off" or run this command
-
-```shell
-Install-WindowsFeature Net-Framework-Core -source \\network\share\sxs
-```
-
-### Install GPU support
-
-As configured in [deploy-vm.jinja](deploy-vm.jinja) this VM run with an Nvidia Tesla GPU. To enable system support, install the driver from this page:  
-[cloud.google.com/compute/docs/gpus/install-grid-drivers](https://cloud.google.com/compute/docs/gpus/install-grid-drivers) -> Windows Server 2019  
-Which as of right no is this one: [426.04_grid_win10_server2016_server2019_64bit_international.exe](https://storage.googleapis.com/nvidia-drivers-us-public/GRID/GRID8.1/426.04_grid_win10_server2016_server2019_64bit_international.exe)
-
-### Enable windows audio services
-
-Click on the sound icon and navigate your way to enable audio support. Test this by playing an audio/ video in Google Chrome. You should hear sound via RDP.
-
-### Install vmix
-
-Go to [vmix.com](https://www.vmix.com/), download and install the latest version.
-
-### Install vMix VLC support
-
-This is not required but useful for playing back streams or video: [vmix.com/vlcdownload](https://www.vmix.com/vlcdownload).
+The server should automatically install .NET, vMIX and other dependencies via Powershell. See [MANUAL.md](MANUAL.md) for all manual steps.  
+You should be able to find a lof file like `startup-DATETIME.log` in the root folder of the `C:\` drive. Please set your `startupScriptUrl` in [run.yaml](run.yaml) since not every project might have access to `gs://event-livestream-tools/` (Sync new files via `gsutil cp -r ./vmix-cloud/startup/ gs://event-livestream-tools/vmix-cloud/`).
 
 ### Setup SRT
 
@@ -70,10 +41,11 @@ Google Cloud will bill you for the costs of this machine, for example stuff like
 
 ## License
 
-This project is licensed under the terms of the MIT License.
+This project is available under the [hippocratic-license](https://github.com/EthicalSource/hippocratic-license); see [LICENSE](../LICENSE).
 
 ## Links
 
-- [vMIX](https://www.vmix.com/)
+- [vMix](https://www.vmix.com/)
 - [vMix on Paperspace](https://www.videosnackbarhub.com/blogposts/tutorial-how-to-set-up-a-cloud-based-high-end-live-remote-multicam-production)
 - [GPUs on Virtual Workstations](https://cloud.google.com/compute/docs/gpus#gpu-virtual-workstations)
+- [Startup scripts for GCP VM](https://cloud.google.com/compute/docs/startupscript)
