@@ -18,6 +18,18 @@ gcloud deployment-manager deployments create DEPLOYMENT_NAME --project PROJECT_I
 A compute engine of the size configured in [run-base.yaml](run-base.yaml) will be booted, attached to an external GPU accelerator.  
 Now connect to the machine using [Google Cloud RDP](https://chrome.google.com/webstore/detail/chrome-rdp-for-google-clo/mpbbnannobiobpnfblimoapbephgifkm) or Microsoft Remote Desktop ([AppStore](https://apps.apple.com/de/app/microsoft-remote-desktop-10/id1295203466?mt=12)).
 
+### Compute machine types
+
+There are plenty of machine types on Google Cloud platform, GPUs are primarily supported on N1 machines. See [available regions and zones](https://cloud.google.com/compute/docs/regions-zones/?hl=en_US#available) for the full list.
+
+### GPUs
+
+The GPUs are only available in several zones. Check ["NVIDIA® GRID® GPUs for graphics workloads"](https://cloud.google.com/compute/docs/gpus#gpu-virtual-workstations) for the up-to-date mapping. Make sure the quota in your project permits the desired configuration (Cloud Console -> IAM & Admin -> Quoatas).
+
+### Quotas
+
+Speaking of quotas, they can be the bottleneck once your cloud project is initiallly created. There are limits on all aspects such as CPU, RAM, Disks, GPUs, etc. The critical part can be the "_Compute Engine API NVIDIA T4 Virtual Workstation GPUs_" limit, which is low in the beginning but can be increasing via a support request (may take time or can be rejected).
+
 ## Setup Microsoft Environment
 
 ### Setup dependencies
